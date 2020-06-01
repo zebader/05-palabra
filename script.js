@@ -238,6 +238,10 @@ const main = () => {
         if (letter.attributes && letter.innerHTML !== '') {
           counterWinner++
           if (counterWinner ===  model.palabraNodes.length - 1) {
+            model.sandyContainer.className = '';
+            model.sandyContainer.classList.add(`sandy-container-5`)
+            model.sandy.className = '';
+            model.sandy.classList.add(`sandy-5`)
             this.loadFinalScreen()
           }
         }
