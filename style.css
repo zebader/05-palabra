@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Playfair+Display:700&display=swap');
+*{
+  margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+  vertical-align: baseline;
+  color: white;
+}
+body{
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #3399ff;
+}
+h1{
+  font-family: 'Playfair Display', serif;
+  font-size: 2em;
+}
+h1{
+  font-size: 1.5em;
+}
+p{
+  font-size: 1.2em;
+}
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+  transition: all 300ms;
+  cursor: pointer;
+}
+button:hover{
+  transform:scale(1.1);
+}
+button:focus{
+  outline: none;
+}
+.startscreen, .mainscreen, .finalscreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+}
+.mainscreen {
+  flex-direction: column;
+}
+.mainscreen h1{
+  font-size: 4em;
+}
+.palabra-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  z-index: 2;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  transition: all 500ms ease-in-out;
+  margin-bottom: 30px;
+}
+.palabra-container img{
+  transition: all 100ms ease-in-out;
+}
+.palabra {
+  width: 60px;
+  height: 80px;
+  border-bottom: 3px solid blue;
+  margin: 10px;
+  text-align: center;
+  line-height: 80px;
+  font-size: 60px;
+}
+.palabra-form{
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.palabra-input {
+  width: 80px;
+  text-align: center;
+  height: 80px;
+  border-radius: 10px;
+  font-size: 45px;
+  background-color: white;
+  color: blue;
+}
+.palabra-input:focus{
+  outline: none;
+  border: none;
+}
+.palabra-button {
+  margin: 20px;
+}
+.palabra-canvas{
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+  border:solid 5px white;
+  box-shadow: 0px 0px 70px -12px rgba(255,255,255,1);
+  box-sizing: content-box;
+  transform: rotate(0deg);
+  transition: all 300ms;
+}
+.animationContainer {
+  width: 500px;
+  height: 500px;
+}
+.puzzle-part {
+  animation: scale 500ms infinite;
+}
+.selected {
+  animation: shine 1000ms infinite;
+}
+.startscreen-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.75);
+  background-position: center;
+  background-size: cover;
+  z-index: 3;
+  animation: opacity 300ms ease-in-out;
+}
+.startscreen-item{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.startscreen-item .italic{
+  font-style: italic;
+
+}
+.startscreen-item h1{
+  font-size: 5em;
+  margin: 5%;
+}
+.startscreen-item h2{
+  font-size: 1.5em;
+  margin: 2%;
+}
+.startscreen-item p{
+  margin: 2%;
+}
+
+.startscreen-item button{
+  padding: 30px 60px;
+  font-size: 1.5em;
+  background-color: rgba(0,0,0,0.75);
+
+}
+.finalscreen-container{
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.75);
+  background-position: center;
+  background-size: cover;
+  z-index: 1;
+}
+.finalscreen-item{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.finalscreen-item h1{
+  font-size: 3em;
+  margin: 2%;
+}
+.finalscreen-item img{
+  border-radius: 30px;
+  margin: 2%;
+  width: 20%;
+}
+.rotating-canva {
+  animation: rotating 20s infinite ease-in-out;
+}
+.scale-canva {
+  animation: scale-canva 120s infinite ease-in-out;
+}
+.shrink-canva{
+  animation: shrink-canva 20s infinite ease-in-out;
+}
+.turnover-canva{
+  animation: turnover-canva 20s infinite ease-in-out;
+}
+.opacity-canva{
+  animation: opacity-canva 5s infinite ease-in-out;
+}
+.scale-bg{
+  background-size: auto;
+  animation: scale-bg 300ms infinite ease-in-out;
+}
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes scale-bg {
+  0% {
+    transform: scale(1); 
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes scale {
+  0% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.1) rotate(3deg);
+  }
+}
+@keyframes shine {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes scale-canva {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes shrink-canva {
+  0% {
+    transform: skew(0deg);
+  }
+  25% {
+    transform: skew(45deg);
+  }
+  50% {
+    transform: skew(0deg);
+  }
+  75% {
+    transform: skew(-45deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+@keyframes turnover-canva {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  5% {
+    transform: rotate(180deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.3);
+  }
+  55% {
+    transform: rotate(0deg) scale(1.3);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+@keyframes opacity-canva {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
