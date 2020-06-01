@@ -1,33 +1,8 @@
 'use strict'
 
 const myImages = [
-  'img/bg.jpg',
+  'img/main-bg.png',
   'img/loader.gif',
-  'img/p_01.jpg',
-  'img/p_02.jpg',
-  'img/p_03.jpg',
-  'img/p_04.jpg',
-  'img/p_05.jpg',
-  'img/p_06.jpg',
-  'img/p_07.jpg',
-  'img/p_08.jpg',
-  'img/p_09.jpg',
-  'img/p_10.jpg',
-  'img/p_11.jpg',
-  'img/p_12.jpg',
-  'img/p_13.jpg',
-  'img/p_14.jpg',
-  'img/p_15.jpg',
-  'img/p_16.jpg',
-  'img/p_17.jpg',
-  'img/p_18.jpg',
-  'img/p_19.jpg',
-  'img/p_20.jpg',
-  'img/p_21.jpg',
-  'img/p_22.jpg',
-  'img/p_23.jpg',
-  'img/p_24.jpg',
-  'img/p_25.jpg',
 ];
 
 const loadImages =  async function(imageUrlArray) {
@@ -119,11 +94,14 @@ const main = () => {
     this.palabraArray = []
     this.selectedPalabra = ''
     this.palabraNodes = null
-    this.countTolose = 5
+    this.countTolose = 0
+    this.sandyContainer = null
+    this.sandy = null
   };
 
   const view = new function() {
     this.fetchPalabrasArray = () => {
+      model.countTolose = 5
       fetch('https://spreadsheets.google.com/feeds/cells/1u7fTkRTI5MVgR_mbQWLt5tcU5_mx30nOHI9RqgxpmXQ/1/public/full?alt=json')
       .then((response) => {
         return response.json();
@@ -131,11 +109,39 @@ const main = () => {
       .then((data) => {
         model.palabraArray = data.feed.entry[4].gs$cell["$t"].split(','); 
         this.shufflePalabra(model.palabraArray);
+        this.createCounter(model.countTolose);
+        this.createSandy((model.countTolose));
         this.createCanva();      
         this.createInput();
         return
       });
     };
+    this.createCounter = (count) => {
+      const counter = document.createElement("p");
+      counter.classList.add('palabra-counter');
+      counter.innerHTML = `te quedan ${count} intentos`
+      selectors.mainContainer.prepend(counter)
+    }
+    this.createSandy = (count) => {
+      const sandyContainer = document.createElement("div");
+      sandyContainer.classList.add(`sandy-container-${count}`);
+      model.sandyContainer = sandyContainer
+
+      const sandy = document.createElement("div");
+      sandy.classList.add(`sandy-${count}`);
+      model.sandy = sandy
+
+      const food = document.createElement("div");
+      food.classList.add('food');
+
+      sandyContainer.append(sandy)
+      sandyContainer.append(food)
+      selectors.mainContainer.prepend(sandyContainer)
+    }
+    this.updateCounter = (count) => {
+      const counter = document.querySelector('.palabra-counter')
+      counter.innerHTML = `te quedan ${count} intentos`
+    }
     this.createCanva = () => {
       model.selectedPalabra.forEach( (letter) => {
         const item = document.createElement("div");
@@ -169,15 +175,16 @@ const main = () => {
       const inputLetter = e.target[0].value
       model.palabraNodes = [...selectors.palabraContainer.childNodes]
 
-      this.checkIfLoser(inputLetter)
-
+      
       model.palabraNodes.forEach( (letter) => {
         if (letter.attributes) {    
-            if(inputLetter.toLowerCase() === letter.attributes[1].value) {
-              letter.innerHTML = inputLetter.toLowerCase()
-            }
+          if(inputLetter.toLowerCase() === letter.attributes[1].value) {
+            letter.innerHTML = inputLetter.toLowerCase()
+            letter.classList.add('palabra-correct')
+          }
         }
       })
+      this.checkIfLoser(inputLetter)
       e.target[0].value = ''
       this.checkIsWinner()
     }
@@ -185,20 +192,40 @@ const main = () => {
       const random = Math.floor(Math.random() * array.length);
       model.selectedPalabra = array[ random ].split('')
     }
-    this.checkIfLoser = async (inputLetter) => {
+    this.checkIfLoser = (inputLetter) => {
       const isInPalabra = model.palabraNodes.some((e) =>{ 
         return e.innerHTML === inputLetter
       })
-      !isInPalabra && model.countTolose--
-      if(model.countTolose === 0) {
-        this.createLoserScreen()
-        selectors.palabraContainer.innerHTML = ''
-        await view.fetchPalabrasArray()
-        model.countTolose = 5
-      }
+      if (!isInPalabra) {
+        model.countTolose = model.countTolose - 1
+        this.updateCounter(model.countTolose);
+        model.sandyContainer.classList.add(`sandy-container-${model.countTolose}`)
+        model.sandy.classList.add(`sandy-${model.countTolose}`)
+        if(model.countTolose === 0) {
+          this.resetScreen()
+        }
+      } 
     }
     this.createLoserScreen = () => {
+      const modal = `
+        <img src="img/init3.png" class="sandy-loser"/>
+        <h1> ¡ No lo has conseguido !</div>
+        <h2>Prueba de nuevo</h2>
+        <button class="restart_button">Probar otra vez</button>`;
+      selectors.mainContainer.innerHTML = modal
+      const button = document.querySelector('.restart_button')
+      button.addEventListener('click', async (e) => {
+        templates.initMainTemplate()
+        selectors.palabraContainer = selectors.page.querySelector('.main_palabra');
+        await view.fetchPalabrasArray()
+      })
 
+    }
+    this.resetScreen = () => {
+      selectors.palabraContainer.innerHTML = ''
+      const form = document.querySelector('.palabra-form')
+      form.remove()
+      this.createLoserScreen()
     }
     this.checkIsWinner = () => {
       let counterWinner = 0
