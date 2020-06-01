@@ -3,6 +3,11 @@
 const myImages = [
   'img/main-bg.png',
   'img/loader.gif',
+  'img/init-food.png',
+  'img/init.png',
+  'img/init2.png',
+  'img/init3.png',
+  'img/steak.png',
 ];
 
 const loadImages =  async function(imageUrlArray) {
